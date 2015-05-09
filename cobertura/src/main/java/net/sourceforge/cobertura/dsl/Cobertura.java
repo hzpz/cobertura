@@ -5,10 +5,9 @@ import net.sourceforge.cobertura.coveragedata.CoverageDataFileHandler;
 import net.sourceforge.cobertura.coveragedata.ProjectData;
 import net.sourceforge.cobertura.instrument.CodeInstrumentationTask;
 import net.sourceforge.cobertura.merge.MergeProjectDataFilesTask;
-import net.sourceforge.cobertura.reporting.ComplexityCalculator;
 import net.sourceforge.cobertura.reporting.CompositeReport;
-import net.sourceforge.cobertura.reporting.NativeReport;
 import net.sourceforge.cobertura.reporting.Report;
+import net.sourceforge.cobertura.reporting.ReportingTask;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -41,6 +40,7 @@ public class Cobertura {
 	private CodeInstrumentationTask instrumentationTask;
 	private CheckCoverageTask checkCoverageTask;
 	private MergeProjectDataFilesTask mergeProjectDataFilesTask;
+	private ReportingTask reportingTask;
 
 	private AtomicBoolean didApplyInstrumentationResults;
 
@@ -60,6 +60,7 @@ public class Cobertura {
 		instrumentationTask = new CodeInstrumentationTask();
 		checkCoverageTask = new CheckCoverageTask();
 		mergeProjectDataFilesTask = new MergeProjectDataFilesTask();
+		reportingTask = new ReportingTask();
 
 		didApplyInstrumentationResults = new AtomicBoolean(false);
 	}
@@ -114,14 +115,7 @@ public class Cobertura {
 		//			calculateCoverage();
 		//		}
 
-		ComplexityCalculator complexityCalculator = new ComplexityCalculator(
-				args.getSources());
-		complexityCalculator.setEncoding(args.getEncoding());
-		complexityCalculator.setCalculateMethodComplexity(args.isCalculateMethodComplexity());
-
-		report.addReport(new NativeReport(getProjectDataInstance(), args
-				.getDestinationDirectory(), args.getSources(),
-				complexityCalculator, args.getEncoding()));
+		report.addReport(reportingTask.report(getProjectDataInstance(), args));
 
 		return report;
 	}
