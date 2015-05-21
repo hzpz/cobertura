@@ -70,6 +70,10 @@ public class ComplexityData {
         return intOrNothing(ccnForMethods, methodData);
     }
 
+    public int getCCNForMethod(ClassData classData, String name, String descriptor) {
+        return getCCNForMethod(new MethodData(classData, name, descriptor));
+    }
+
     private <K> double doubleOrNothing(Map<K, Double> map, K key) {
         if (map.containsKey(key)) {
             return map.get(key);

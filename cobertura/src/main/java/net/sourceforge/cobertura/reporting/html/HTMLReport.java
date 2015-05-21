@@ -26,8 +26,8 @@
 
 package net.sourceforge.cobertura.reporting.html;
 
+import net.sourceforge.cobertura.complexity.ComplexityData;
 import net.sourceforge.cobertura.coveragedata.*;
-import net.sourceforge.cobertura.reporting.ComplexityCalculator;
 import net.sourceforge.cobertura.reporting.html.files.CopyFiles;
 import net.sourceforge.cobertura.util.*;
 
@@ -48,7 +48,7 @@ public class HTMLReport {
 
 	private FileFinder finder;
 
-	private ComplexityCalculator complexity;
+	private ComplexityData complexity;
 
 	private ProjectData projectData;
 
@@ -60,7 +60,7 @@ public class HTMLReport {
 	 * @param encoding
 	 */
 	public HTMLReport(ProjectData projectData, File outputDir,
-			FileFinder finder, ComplexityCalculator complexity, String encoding)
+			FileFinder finder, ComplexityData complexity, String encoding)
 			throws Exception {
 		this.destinationDir = outputDir;
 		this.finder = finder;
@@ -603,7 +603,7 @@ public class HTMLReport {
 
 	private String generateTableRowForTotal() {
 		StringBuffer ret = new StringBuffer();
-		double ccn = complexity.getCCNForProject(projectData);
+		double ccn = complexity.getCCNForProject();
 
 		ret.append("  <tr>");
 		ret.append("<td><b>All Packages</b></td>");

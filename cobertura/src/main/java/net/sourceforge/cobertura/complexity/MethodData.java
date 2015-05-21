@@ -1,6 +1,8 @@
 package net.sourceforge.cobertura.complexity;
 
 import net.sourceforge.cobertura.coveragedata.ClassData;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.apache.commons.lang3.builder.HashCodeBuilder;
 
 public class MethodData {
 
@@ -36,5 +38,33 @@ public class MethodData {
 
     public String getDescriptor() {
         return descriptor;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        MethodData that = (MethodData) o;
+
+        return new EqualsBuilder()
+                .append(classData, that.classData)
+                .append(name, that.name)
+                .append(descriptor, that.descriptor)
+                .isEquals();
+    }
+
+    @Override
+    public int hashCode() {
+        return new HashCodeBuilder(17, 37)
+                .append(classData)
+                .append(name)
+                .append(descriptor)
+                .toHashCode();
     }
 }

@@ -1,5 +1,6 @@
 package net.sourceforge.cobertura.reporting;
 
+import net.sourceforge.cobertura.complexity.ComplexityData;
 import net.sourceforge.cobertura.coveragedata.ProjectData;
 import net.sourceforge.cobertura.dsl.ReportFormat;
 import net.sourceforge.cobertura.util.FileFinder;
@@ -11,12 +12,12 @@ public class NativeReport implements Report {
 	private ProjectData projectData;
 	private File destinationDir;
 	private FileFinder finder;
-	private ComplexityCalculator complexity;
+	private ComplexityData complexity;
 	private String encoding;
 	private ReportFormatStrategyRegistry formatStrategyRegistry;
 
 	public NativeReport(ProjectData projectData, File destinationDir,
-			FileFinder finder, ComplexityCalculator complexity, String encoding) {
+			FileFinder finder, ComplexityData complexity, String encoding) {
 		this.nullReport = new NullReport();
 		this.projectData = projectData;
 		this.destinationDir = destinationDir;
@@ -54,7 +55,7 @@ public class NativeReport implements Report {
 		return finder;
 	}
 
-	public ComplexityCalculator getComplexity() {
+	public ComplexityData getComplexity() {
 		return complexity;
 	}
 

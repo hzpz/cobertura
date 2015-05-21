@@ -25,8 +25,8 @@
 
 package net.sourceforge.cobertura.reporting.xml;
 
+import net.sourceforge.cobertura.complexity.ComplexityData;
 import net.sourceforge.cobertura.coveragedata.*;
-import net.sourceforge.cobertura.reporting.ComplexityCalculator;
 import net.sourceforge.cobertura.util.FileFinder;
 import net.sourceforge.cobertura.util.Header;
 import net.sourceforge.cobertura.util.IOUtil;
@@ -49,11 +49,11 @@ public class XMLReport {
 
 	private final PrintWriter pw;
 	private final FileFinder finder;
-	private final ComplexityCalculator complexity;
+	private final ComplexityData complexity;
 	private int indent = 0;
 
 	public XMLReport(ProjectData projectData, File destinationDir,
-			FileFinder finder, ComplexityCalculator complexity)
+			FileFinder finder, ComplexityData complexity)
 			throws IOException {
 		this.complexity = complexity;
 		this.finder = finder;
@@ -67,7 +67,7 @@ public class XMLReport {
 					+ coverageDTD + "\">");
 			println("");
 
-			double ccn = complexity.getCCNForProject(projectData);
+			double ccn = complexity.getCCNForProject();
 			int numLinesCovered = projectData.getNumberOfCoveredLines();
 			int numLinesValid = projectData.getNumberOfValidLines();
 			int numBranchesCovered = projectData.getNumberOfCoveredBranches();

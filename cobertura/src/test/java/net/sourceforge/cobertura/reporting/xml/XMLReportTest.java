@@ -22,9 +22,9 @@
 package net.sourceforge.cobertura.reporting.xml;
 
 import junit.framework.TestCase;
+import net.sourceforge.cobertura.complexity.ComplexityData;
 import net.sourceforge.cobertura.coveragedata.ClassData;
 import net.sourceforge.cobertura.coveragedata.ProjectData;
-import net.sourceforge.cobertura.reporting.ComplexityCalculator;
 import net.sourceforge.cobertura.reporting.JUnitXMLHelper;
 import net.sourceforge.cobertura.util.FileFinder;
 
@@ -63,7 +63,7 @@ public class XMLReportTest extends TestCase {
 		reportDir.mkdir();
 
 		FileFinder fileFinder = new FileFinder();
-		ComplexityCalculator complexity = new ComplexityCalculator(fileFinder);
+		ComplexityData complexity = new ComplexityData(projectData, 0);
 
 		new XMLReport(projectData, reportDir, fileFinder, complexity);
 
