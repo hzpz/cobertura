@@ -47,7 +47,12 @@ public class ComplexityTaskTest {
     }
 
     private ComplexityData calculateComplexity(ProjectData projectData) {
+        return calculateComplexity(projectData, false);
+    }
+
+    private ComplexityData calculateComplexity(ProjectData projectData, boolean calculateMethodComplexity) {
         ComplexityCalculator complexityCalculator = new ComplexityCalculator(fileFinder);
+        complexityCalculator.setCalculateMethodComplexity(calculateMethodComplexity);
         ComplexityTask complexityTask = new ComplexityTask(complexityCalculator);
         return complexityTask.calculateComplexity(projectData);
     }
@@ -101,6 +106,19 @@ public class ComplexityTaskTest {
         PackageData empty = new PackageData("com.example2");
         ComplexityData complexityData3 = calculateComplexity(project);
         assertThat(complexityData3.getCCNForPackage(empty), equalTo(0.0));
+    }
+
+    @Test
+    public void testGetCCNForMethod() {
+        ProjectData project = new ProjectData();
+        ClassData classData = new ClassData("com.example.Sample7");
+        classData.addLine(1, "someMethod", "(int;)V");
+        project.addClassData(classData);
+
+        ComplexityData complexityData = calculateComplexity(project, true);
+        int ccnForMethod = complexityData.getCCNForMethod(new MethodData(classData, "someMethod(int;)V"));
+
+        assertThat(ccnForMethod, not(equalTo(0)));
     }
 
 }
