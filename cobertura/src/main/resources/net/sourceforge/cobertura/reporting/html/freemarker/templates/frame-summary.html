@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Coverage Report</title>
+    <link title="Style" type="text/css" rel="stylesheet" href="css/main.css"/>
+    <link title="Style" type="text/css" rel="stylesheet" href="css/sortabletable.css"/>
+    <script type="text/javascript" src="js/popup.js"></script>
+    <script type="text/javascript" src="js/sortabletable.js"></script>
+    <script type="text/javascript" src="js/customsorttypes.js"></script>
+</head>
+<body>
+<h5>Coverage Report - ${report.generatePackageName(rootPackage)}</h5>
+<div class="separator">&nbsp;</div>
+<table class="report" id="packageResults">
+    <thead>
+    <tr>
+        <td class="heading">Package</td>
+        <td class="heading"># Classes</td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Line Coverage</a></td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Branch Coverage</a></td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Complexity</a></td>
+    </tr>
+    </thead>
+    <tbody>
+    <#if !rootPackage??>
+    <tr>
+        <td><b>All Packages</b></td>
+        <td class="value">${project.numberOfClasses}</td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if project.numberOfValidLines gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getLineCoverageInPercent(project)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getLineCoverageGraphWidth(project)}"><span class="text">${project.numberOfCoveredLines}/${project.numberOfValidLines}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if project.numberOfValidBranches gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getBranchCoverageInPercent(project)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getBranchCoverageGraphWidth(project)}"><span class="text">${project.numberOfCoveredBranches}/${project.numberOfValidBranches}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td class="value"><span class="hidden">${complexity.CCNForProject};</span>${report.formatDoubleValue(complexity.CCNForProject)}</td>
+    </tr>
+    </#if>
+    <#list packages as package>
+    <tr>
+        <td><a href="frame-summary-${package.name}.html" onclick='parent.sourceFileList.location.href="frame-sourcefiles-${package.name}.html"'>${report.generatePackageName(package)}</a></td>
+        <td class="value">${package.numberOfChildren}</td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if package.numberOfValidLines gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getLineCoverageInPercent(package)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getLineCoverageGraphWidth(package)}"><span class="text">${package.numberOfCoveredLines}/${package.numberOfValidLines}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if package.numberOfValidBranches gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getBranchCoverageInPercent(package)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getBranchCoverageGraphWidth(package)}"><span class="text">${package.numberOfCoveredBranches}/${package.numberOfValidBranches}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td class="value"><span class="hidden">${complexity.getCCNForPackage(package)};</span>${report.formatDoubleValue(complexity.getCCNForPackage(package))}</td>
+    </tr>
+    </#list>
+    </tbody>
+</table>
+<script type="text/javascript">
+    var packageTable = new SortableTable(document.getElementById("packageResults"),
+            ["String", "Number", "Percentage", "Percentage", "FormattedNumber"]);
+    packageTable.sort(0);
+</script>
+<#if sourceFiles?size gt 0>
+<div class="separator">&nbsp;</div>
+<table class="report" id="classResults">
+    <thead>
+    <tr>
+        <td class="heading">Classes in this Package</td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Line Coverage</a></td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Branch Coverage</a></td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Complexity</a></td>
+    </tr>
+    </thead>
+    <tbody>
+    <#list sourceFiles as sourceFile>
+    <#list sourceFile.classes as class>
+    <tr>
+        <td><a href="${sourceFile.normalizedName}.html">${class.baseName}</a></td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if class.numberOfValidLines gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getLineCoverageInPercent(class)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getLineCoverageGraphWidth(class)}"><span class="text">${class.numberOfCoveredLines}/${class.numberOfValidLines}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if class.numberOfValidBranches gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getBranchCoverageInPercent(class)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getBranchCoverageGraphWidth(class)}"><span class="text">${class.numberOfCoveredBranches}/${class.numberOfValidBranches}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td class="value"><span class="hidden">${complexity.getCCNForClass(class)};</span>${report.formatDoubleValue(complexity.getCCNForClass(class))}</td>
+    </tr>
+    </#list>
+    </#list>
+    </tbody>
+</table>
+<script type="text/javascript">
+    var classTable = new SortableTable(document.getElementById("classResults"),
+            ["String", "Percentage", "Percentage", "FormattedNumber"]);
+    classTable.sort(0);
+</script>
+</#if>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> ${coberturaVersion!"dev"} on ${generationDate}.</div>
+</body>
+</html>

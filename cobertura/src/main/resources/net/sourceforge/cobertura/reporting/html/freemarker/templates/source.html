@@ -1,0 +1,109 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Coverage Report</title>
+    <link title="Style" type="text/css" rel="stylesheet" href="css/main.css"/>
+    <script type="text/javascript" src="js/popup.js"></script>
+</head>
+<body>
+<h5>Coverage Report - ${sourceFile.normalizedName}</h5>
+<div class="separator">&nbsp;</div>
+<table class="report">
+    <thead>
+    <tr>
+        <td class="heading">Classes in this File</td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Line Coverage</a></td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Branch Coverage</a></td>
+        <td class="heading"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">Complexity</a></td>
+    </tr>
+    </thead>
+    <#list sourceFile.classes as class>
+    <tr>
+        <td><a href="${sourceFile.normalizedName}.html">${class.baseName}</a></td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if class.numberOfValidLines gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getLineCoverageInPercent(class)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getLineCoverageGraphWidth(class)}"><span class="text">${class.numberOfCoveredLines}/${class.numberOfValidLines}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <table cellpadding="0px" cellspacing="0px" class="percentgraph">
+                <tr class="percentgraph">
+                    <#if class.numberOfValidBranches gt 0>
+                    <td align="right" class="percentgraph" width="40">${report.getBranchCoverageInPercent(class)}</td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="greenbar" style="width:${report.getBranchCoverageGraphWidth(class)}"><span class="text">${class.numberOfCoveredBranches}/${class.numberOfValidBranches}</span></div></div></td>
+                    <#else>
+                    <td align="right" class="percentgraph" width="40"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></td>
+                    <td class="percentgraph"><div class="percentgraph"><div class="na" style="width:100px"><span class="text"><a class="dfn" href="help.html" onclick="popupwindow('help.html'); return false;">N/A</a></span></div></div></td>
+                    </#if>
+                </tr>
+            </table>
+        </td>
+        <td class="value"><span class="hidden">${complexity.getCCNForClass(class)};</span>${report.formatDoubleValue(complexity.getCCNForClass(class))}</td>
+    </tr>
+    </#list>
+</table>
+<div class="separator">&nbsp;</div>
+<#if fatalError??>
+<p>${errorMessage}</p>
+<#else>
+<table cellspacing="0" cellpadding="0" class="src">
+    <#if readError??>
+    <tr><td>${errorMessage}</td></tr>
+    </#if>
+    <#list lines as line>
+    <tr>
+        <#if line.valid>
+        <td class="numLineCover">&nbsp;${line.lineNumber}</td>
+        <#if line.data?? && line.data.covered>
+        <td class="nbHitsCovered">
+            <#if line.data?? && line.data.hasBranch()>
+            <a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.data.hits!0}</a>
+            <#else><#-- line.data.hasBranch -->
+            &nbsp;${line.data.hits!0}
+            </#if><#-- line.data.hasBranch -->
+        </td>
+        <td class="src">
+            <#if line.data?? && line.data.hasBranch()>
+            <pre class="src"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.code}</a></pre>
+            <#else><#-- line.data.hasBranch() -->
+            <pre class="src">&nbsp;${line.code}</pre>
+            </#if><#-- line.data.hasBranch() -->
+        </td>
+        <#else><#-- line.data.covered -->
+        <td class="nbHitsUncovered">
+            <#if line.data?? && line.data.hasBranch()>
+            <a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.data.hits!0}</a>
+            <#else><#-- line.data.hasBranch() -->
+            &nbsp;${line.data.hits!0}
+            </#if><#-- line.data.hasBranch() -->
+        </td>
+        <td class="src">
+            <#if line.data?? && line.data.hasBranch()>
+            <pre class="src"><span class="srcUncovered"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.code}</a></span></pre>
+            <#else><#-- line.data.hasBranch() -->
+            <pre class="src"><span class="srcUncovered">&nbsp;${line.code}</span></pre>
+            </#if><#-- line.data.hasBranch() -->
+        </td>
+        </#if><#-- line.data.covered -->
+        <#else><#-- line.valid -->
+        <td class="numLine">&nbsp;${line.lineNumber}</td>
+        <td class="nbHits">&nbsp;</td>
+        <td class="src"><pre class="src">&nbsp;${line.code}</pre></td>
+        </#if><#-- line.valid -->
+    </tr>
+    </#list>
+</table>
+</#if>
+<div class="footer">Report generated by <a href="http://cobertura.sourceforge.net/" target="_top">Cobertura</a> ${coberturaVersion!"dev"} on ${generationDate}.</div>
+</body>
+</html>
