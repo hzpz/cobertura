@@ -48,7 +48,7 @@
                 </tr>
             </table>
         </td>
-        <td class="value"><span class="hidden">${complexity.getCCNForClass(class)};</span>${report.formatDoubleValue(complexity.getCCNForClass(class))}</td>
+        <td class="value"><span class="hidden">${complexity.getCCNForClass(class)?c};</span>${report.formatDoubleValue(complexity.getCCNForClass(class))}</td>
     </tr>
     </#list>
 </table>
@@ -65,31 +65,27 @@
         <#if line.valid>
         <td class="numLineCover">&nbsp;${line.lineNumber}</td>
         <#if line.data?? && line.data.covered>
-        <td class="nbHitsCovered">
-            <#if line.data?? && line.data.hasBranch()>
-            <a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.data.hits!0}</a>
-            <#else><#-- line.data.hasBranch -->
-            &nbsp;${line.data.hits!0}
-            </#if><#-- line.data.hasBranch -->
-        </td>
+        <#if line.data?? && line.data.hasBranch()>
+        <td class="nbHitsCovered"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.data.hits!0}</a></td>
+        <#else><#-- line.data.hasBranch -->
+        <td class="nbHitsCovered">&nbsp;${line.data.hits!0}</td>
+        </#if><#-- line.data.hasBranch -->
         <td class="src">
             <#if line.data?? && line.data.hasBranch()>
-            <pre class="src"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.code}</a></pre>
+            <pre class="src">&nbsp;<a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">${line.code}</a></pre>
             <#else><#-- line.data.hasBranch() -->
             <pre class="src">&nbsp;${line.code}</pre>
             </#if><#-- line.data.hasBranch() -->
         </td>
         <#else><#-- line.data.covered -->
-        <td class="nbHitsUncovered">
-            <#if line.data?? && line.data.hasBranch()>
-            <a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.data.hits!0}</a>
-            <#else><#-- line.data.hasBranch() -->
-            &nbsp;${line.data.hits!0}
-            </#if><#-- line.data.hasBranch() -->
-        </td>
+        <#if line.data?? && line.data.hasBranch()>
+        <td class="nbHitsUncovered"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.data.hits!0}</a></td>
+        <#else><#-- line.data.hasBranch() -->
+        <td class="nbHitsUncovered">&nbsp;${line.data.hits!0}</td>
+        </#if><#-- line.data.hasBranch() -->
         <td class="src">
             <#if line.data?? && line.data.hasBranch()>
-            <pre class="src"><span class="srcUncovered"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">&nbsp;${line.code}</a></span></pre>
+            <pre class="src">&nbsp;<span class="srcUncovered"><a title="Line ${line.lineNumber}: Conditional coverage ${line.data.getConditionCoverage()}${line.conditionCoverageDetails}.">${line.code}</a></span></pre>
             <#else><#-- line.data.hasBranch() -->
             <pre class="src"><span class="srcUncovered">&nbsp;${line.code}</span></pre>
             </#if><#-- line.data.hasBranch() -->

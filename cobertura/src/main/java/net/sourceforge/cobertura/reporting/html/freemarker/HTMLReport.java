@@ -293,19 +293,8 @@ public class HTMLReport {
                 boolean isValidSourceLineNumber = sourceFileData.isValidSourceLineNumber(lineNumber);
                 LineData lineData = sourceFileData.getLineCoverage(lineNumber);
                 SourceCodeLine sourceCodeLine = new SourceCodeLine(isValidSourceLineNumber, lineNumber, lineData, javaToHtml.process(lineStr));
-                if (lineData != null && lineData.hasBranch()) {
-                    StringBuilder conditionalCoverageDetails = new StringBuilder();
-                    if (lineData.getConditionSize() > 0) {
-                        conditionalCoverageDetails.append(" [each condition: ");
-                        for (int i = 0; i < lineData.getConditionSize(); i++) {
-                            if (i > 0) {
-                                conditionalCoverageDetails.append(", ");
-                            }
-                            conditionalCoverageDetails.append(lineData.getConditionCoverage(i));
-                        }
-                        conditionalCoverageDetails.append("]");
-                    }
-                    sourceCodeLine.setConditionCoverageDetails(conditionalCoverageDetails.toString());
+                if (hasBranch(lineData)) {
+                    sourceCodeLine.setConditionCoverageDetails(generateConditionCoverageDetails(lineData));
                 }
                 lines.add(sourceCodeLine);
                 lineNumber++;
@@ -321,6 +310,25 @@ public class HTMLReport {
             } catch (IOException e) {
             }
         }
+    }
+
+    private boolean hasBranch(LineData lineData) {
+        return lineData != null && lineData.hasBranch();
+    }
+
+    private String generateConditionCoverageDetails(LineData lineData) {
+        StringBuilder conditionalCoverageDetails = new StringBuilder();
+        if (lineData.getConditionSize() > 1) {
+            conditionalCoverageDetails.append(" [each condition: ");
+            for (int i = 0; i < lineData.getConditionSize(); i++) {
+                if (i > 0) {
+                    conditionalCoverageDetails.append(", ");
+                }
+                conditionalCoverageDetails.append(lineData.getConditionCoverage(i));
+            }
+            conditionalCoverageDetails.append("]");
+        }
+        return conditionalCoverageDetails.toString();
     }
 
     public static class SourceCodeLine {

@@ -54,7 +54,7 @@
                 </tr>
             </table>
         </td>
-        <td class="value"><span class="hidden">${complexity.CCNForProject};</span>${report.formatDoubleValue(complexity.CCNForProject)}</td>
+        <td class="value"><span class="hidden">${complexity.CCNForProject?c};</span>${report.formatDoubleValue(complexity.CCNForProject)}</td>
     </tr>
     </#if>
     <#list packages as package>
@@ -87,7 +87,7 @@
                 </tr>
             </table>
         </td>
-        <td class="value"><span class="hidden">${complexity.getCCNForPackage(package)};</span>${report.formatDoubleValue(complexity.getCCNForPackage(package))}</td>
+        <td class="value"><span class="hidden">${complexity.getCCNForPackage(package)?c};</span>${report.formatDoubleValue(complexity.getCCNForPackage(package))}</td>
     </tr>
     </#list>
     </tbody>
@@ -139,7 +139,7 @@
                 </tr>
             </table>
         </td>
-        <td class="value"><span class="hidden">${complexity.getCCNForClass(class)};</span>${report.formatDoubleValue(complexity.getCCNForClass(class))}</td>
+        <td class="value"><span class="hidden">${complexity.getCCNForClass(class)?c};</span>${report.formatDoubleValue(complexity.getCCNForClass(class))}</td>
     </tr>
     </#list>
     </#list>
